@@ -2,8 +2,8 @@
 (* Uncomment as you implement features *)
 
 open Symbol
-(* open Graph *)
-(* open Cycles *)
+open Graph
+open Cycles
 (* open Path *)
 (* open Board *)
    
@@ -60,7 +60,7 @@ let () =
       Printf.printf "OK\n";
     end
 
-(*
+
 let () =
   if Filename.basename Sys.argv.(0) = "tests" then begin
       Printf.printf "Testing Graph Module:\t";
@@ -83,9 +83,9 @@ let () =
                       
       Printf.printf "OK\n";
     end
- *)
 
-(*
+
+
 let () =
     if Filename.basename Sys.argv.(0) = "tests" then begin
       Printf.printf "Graph Generation:\t";
@@ -102,7 +102,7 @@ let () =
       assert (get_edge g (of_char 'Z') (of_char 'Y') = Positions.empty);
       Printf.printf "OK\n";
     end
- *)
+
 
 (*
 let () =
