@@ -36,8 +36,8 @@ let print_path g out list =
         Printf.fprintf out "] -> %c" (Symbol.to_char h2); (* TODO *)
         aux (h2 :: t)
       end
-    | _ -> ()
+    | _ -> Printf.fprintf out "\n"
   in
   if list <> []
-  then Printf.fprintf out "%c" (Symbol.to_char (List.hd list)); 
+  then Printf.fprintf out "%c " (Symbol.to_char (List.hd list)); 
   aux list

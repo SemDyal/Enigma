@@ -4,7 +4,7 @@
 open Symbol
 open Graph
 open Cycles
-(* open Path *)
+open Path
 (* open Board *)
    
 let () =
@@ -104,7 +104,7 @@ let () =
     end
 
 
-(*
+
 let () =
   if Filename.basename Sys.argv.(0) = "tests" then begin
       Printf.printf "Testing Path Module:\t";
@@ -122,21 +122,23 @@ let () =
               
       Printf.printf "OK\n";
     end
- *)
+ 
 
-(*  
 let () =
   if Filename.basename Sys.argv.(0) = "tests" then begin
       Printf.printf "Testing Cycles Module:\t";
 
-      (* TODO: as the return type of Cycles.cycles is free,
-       * you have to write your own tests about this function
-       * In the previous example, for messages "ABCDBAA" and "ZZHKYYY",
-       * you should find 7 useful cycles in the multi-graph,
-       * which correspond to 11 cycles in the original graph
-       * 
-       * The unexpanded cycles are the following ones: *)
-      
+      let g = graph_of_known_cipher "ABCDBAA" "ZZHKYYY" in
+      let cs = cycles g in
+
+      let rec to_path list = match list with 
+       | [x] -> Path.singleton x
+       | h :: t -> Path.snoc (to_path t) h
+       | _ -> failwith ""
+      in
+
+      let check list = assert(memp cs (to_path list)) in
+
       (* - A(5,6)Y(5,6)A
        * - A(5,6)Y(4)B(1)Z(0)A
        * - A(0)Z(0)A
@@ -145,12 +147,23 @@ let () =
        * - C(2)H(2)C
        * - D(3)K(3)D *)
 
-      (* Write some tests for your functions to see if you get 
-       * the same numbers of cycles *)
+      let b = of_char 'B' in
+      let c = of_char 'C' in
+      let d = of_char 'D' in
+      let k = of_char 'K' in
+      let h = of_char 'H' in
+      let y = of_char 'Y' in
+      let z = of_char 'Z' in
+      check [a; y; a];
+      check [a; y; b; z; a];
+      check [a; z; a];
+      check [b; y; b];
+      check [b; z; b];
+      check [c; h; c];
+      check [d; k; d];
 
-      Printf.printf "TODO\n";
+      Printf.printf "OK\n";
     end
- *)
 
 (*  
 let () =
