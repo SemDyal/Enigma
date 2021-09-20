@@ -62,11 +62,31 @@ let cycles g =
 let iter_fusion f cycles =
   Paths.iter f cycles
 
-let iter_multi f cycles = 
-  Paths.iter f cycles (*TODO*)
+let iter_multi f g cycles = 
+  let f' p =
+    let src = Path.source p in
+    let lst = Path.rev_path p in
+    let all_ends = ref [ [] ] in
+    let rec add = function
+      | h1 :: h2 :: l ->
+        let pos = Graph.Positions.elements (Graph.get_edge g h1 h2) in
+        let new_ends =
+          List.flatten (List.map
+            (fun new_p ->
+               (List.map (fun e -> new_p :: e) !all_ends))
+            pos)
+        in
+        all_ends := new_ends;
+        add (h2 :: l)
+      | _ -> ()
+    in
+    add lst;
+    List.iter (f src) !all_ends
+  in 
+  Paths.iter f' cycles
 
 
-(** Behaviour of the "enigma" executable. *)
+(** Behaviour of the "cycles" executable. *)
 let () =
   if Filename.basename Sys.argv.(0) = "cycles" then begin
 
@@ -79,12 +99,13 @@ let () =
             Printf.printf "Type your text, or Ctrl-D to exit: %!" ;
             input_line stdin,input_line stdin, args
       in
-      let clear = String.uppercase clear in
-      let cipher = String.uppercase cipher in
+      let clear = String.uppercase_ascii clear in
+      let cipher = String.uppercase_ascii cipher in
       let g = graph_of_known_cipher clear cipher in
       let cs = cycles g in
         Printf.printf "\n %s %s \n" clear cipher;
-        iter_fusion (fun p -> Graph.print_path g Pervasives.stdout (Path.rev_path p)) cs;
+        if (Paths.cardinal cs < 20) then
+        iter_fusion (fun p -> Graph.print_path g Stdlib.stdout (Path.rev_path p)) cs;
         Printf.printf "\n%!" ;
         run args
     in

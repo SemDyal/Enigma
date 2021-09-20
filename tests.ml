@@ -5,7 +5,7 @@ open Symbol
 open Graph
 open Cycles
 open Path
-(* open Board *)
+open Board
    
 let () =
   if Filename.basename Sys.argv.(0) = "tests" then begin
@@ -165,7 +165,7 @@ let () =
       Printf.printf "OK\n";
     end
 
-(*  
+
 let () =
   if Filename.basename Sys.argv.(0) = "tests" then begin
       Printf.printf "Board (1st version):\t";
@@ -202,7 +202,7 @@ let () =
 
       Printf.printf "OK\n";
     end
- *)
+
 
 (*  
 let () =

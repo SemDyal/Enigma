@@ -8,4 +8,4 @@ val cycles : Graph.t -> t
 
 val iter_fusion : (Path.t -> unit) -> t -> unit
 
-val iter_multi : (Path.t -> unit) -> t -> unit
+val iter_multi : (Symbol.sym -> (int list) -> unit) -> Graph.t -> t -> unit
